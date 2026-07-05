@@ -11,6 +11,8 @@ spec:
     metadata:
       labels: {app: jx-demo-app}
     spec:
+      imagePullSecrets:
+        - name: ghcr-creds
       containers:
         - name: jx-demo-app
           image: PLACEHOLDER_IMAGE
