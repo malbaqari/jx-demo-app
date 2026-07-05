@@ -1,0 +1,35 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: jx-demo-pipeline
+  namespace: demo
+spec:
+  params:
+    - name: repo-url
+    - name: revision
+      default: main
+    - name: image
+  workspaces:
+    - name: shared-workspace
+  tasks:
+    - name: fetch-source
+      taskRef: {name: git-clone}
+      params:
+        - {name: url, value: $(params.repo-url)}
+        - {name: revision, value: $(params.revision)}
+      workspaces:
+        - {name: output, workspace: shared-workspace}
+    - name: build-push
+      taskRef: {name: kaniko-build-push}
+      runAfter: [fetch-source]
+      params:
+        - {name: image, value: $(params.image)}
+      workspaces:
+        - {name: source, workspace: shared-workspace}
+    - name: deploy-app
+      taskRef: {name: deploy}
+      runAfter: [build-push]
+      params:
+        - {name: image, value: $(params.image)}
+      workspaces:
+        - {name: source, workspace: shared-workspace}

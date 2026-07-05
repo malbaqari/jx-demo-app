@@ -1,0 +1,17 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  generateName: jx-demo-run-
+  namespace: demo
+spec:
+  pipelineRef: {name: jx-demo-pipeline}
+  params:
+    - {name: repo-url, value: "https://github.com/malbaqari/jx-demo-app.git"}
+    - {name: revision, value: main}
+    - {name: image, value: "ghcr.io/malbaqari/jx-demo-app:manual-1"}
+  workspaces:
+    - name: shared-workspace
+      volumeClaimTemplate:
+        spec:
+          accessModes: [ReadWriteOnce]
+          resources: {requests: {storage: 1Gi}}
