@@ -1,38 +1,38 @@
-<!-- index.html – PAGE 1: BEFORE PUSH (Legacy Mode) -->
+<!-- page-before.html – PAGE 1: BEFORE FORTIWEB -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>FortiWeb CI/CD Demo – Legacy Deployment</title>
-  <link rel="stylesheet" href="gitex.css" />
+  <title>FortiWeb CI/CD Demo – Pre-FortiWeb</title>
+  <link rel="stylesheet" href="/jx-demo-app/gitex.css" />
 </head>
 <body class="page page-before">
-  <div class="bg-grid"></div>
-  <div class="data-rain"></div>
+  <div class="bg-grid bg-grid-active"></div>
+  <div class="data-rain data-rain-active"></div>
   <header class="header">
     <div class="logo">FortiWeb CI/CD</div>
-    <div class="version-badge badge-legacy">v1.0 • Legacy Deployment</div>
+    <div class="version-badge badge-legacy">v1.0 • Pre-FortiWeb</div>
   </header>
   <main class="main">
     <section class="hero">
-      <h1>Legacy Deployment Mode</h1>
-      <p class="subline">Version v1.0 • Manual Ops • No Automation</p>
+      <h1>Pre-FortiWeb Deployment</h1>
+      <p class="subline">Version v1.0 • Automated CI/CD • No WAF Protection</p>
     </section>
     <section class="status-card status-legacy">
       <div class="status-icon status-yellow"></div>
       <div class="status-text">
-        <h2>Service Running — Manual Deployment Required</h2>
-        <p>Your application is online, but updates require manual intervention.</p>
+        <h2>Service Healthy — Traffic Unprotected</h2>
+        <p>Deployment is automated via Tekton, but application traffic is not yet inspected or protected.</p>
       </div>
     </section>
     <section class="cards">
       <div class="card hologram-card">
-        <h3>Build Version</h3>
-        <p>v1.0 (Static)</p>
+        <h3>Build Source</h3>
+        <p>Git push</p>
       </div>
       <div class="card hologram-card">
-        <h3>Pipeline Mode</h3>
-        <p>Manual / Legacy</p>
+        <h3>Pipeline Engine</h3>
+        <p>Tekton CI/CD</p>
       </div>
       <div class="card hologram-card">
         <h3>Last Update</h3>
@@ -40,11 +40,25 @@
       </div>
       <div class="card hologram-card">
         <h3>FortiWeb Mode</h3>
-        <p>Monitoring Only</p>
+        <p>Not Deployed</p>
+      </div>
+      <div class="card hologram-card">
+        <h3>Threat Insights</h3>
+        <p>No visibility</p>
+      </div>
+    </section>
+    <section class="pipeline">
+      <div class="pipeline-title">CI/CD Flow</div>
+      <div class="pipeline-steps">
+        <div class="pipeline-step step-active">Commit</div>
+        <div class="pipeline-step step-active">Build</div>
+        <div class="pipeline-step step-active">Scan</div>
+        <div class="pipeline-step step-active">Deploy</div>
+        <div class="pipeline-step">Protect</div>
       </div>
     </section>
     <section class="footer-banner legacy-banner">
-      <p>Awaiting developer push to activate next-generation pipeline.</p>
+      <p>Awaiting FortiWeb integration to activate traffic protection.</p>
     </section>
   </main>
 </body>

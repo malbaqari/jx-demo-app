@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const PORT = process.env.PORT || 8080;
 
-const knownAssets = ['/gitex.css', '/current.html', '/page-before.html', '/page-after.html'];
+const knownAssets = ['gitex.css', 'current.html', 'page-before.html', 'page-after.html'];
 
 const server = http.createServer((req, res) => {
   if (req.url === '/health') {
@@ -13,8 +13,9 @@ const server = http.createServer((req, res) => {
   }
 
   const cleanUrl = req.url.split('?')[0];
-  const filePath = knownAssets.includes(cleanUrl)
-    ? path.join(__dirname, cleanUrl)
+  const basename = cleanUrl.split('/').pop();
+  const filePath = knownAssets.includes(basename)
+    ? path.join(__dirname, basename)
     : path.join(__dirname, 'current.html');
 
   const ext = path.extname(filePath);
