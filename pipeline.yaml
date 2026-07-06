@@ -33,3 +33,8 @@ spec:
         - {name: image, value: $(params.image)}
       workspaces:
         - {name: source, workspace: shared-workspace}
+    - name: configure-fortiweb
+      taskRef: {name: configure-fortiweb-protection}
+      runAfter: [deploy-app]
+      workspaces:
+        - {name: source, workspace: shared-workspace}

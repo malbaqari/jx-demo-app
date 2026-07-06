@@ -1,0 +1,36 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: configure-fortiweb-protection
+  namespace: demo
+spec:
+  workspaces:
+    - name: source
+  steps:
+    - name: configure
+      image: alpine:3.19
+      env:
+        - name: FWB_USERNAME
+          valueFrom:
+            secretKeyRef: {name: fwb-admin-creds, key: username}
+        - name: FWB_PASSWORD
+          valueFrom:
+            secretKeyRef: {name: fwb-admin-creds, key: password}
+      script: |
+        #!/bin/sh
+        set -e
+        apk add --no-cache openssh-client sshpass kubectl >/dev/null 2>&1 || apk add --no-cache openssh-client sshpass >/dev/null
+
+        cd $(workspaces.source.path)
+
+        APP_IP=$(kubectl get svc jx-demo-app -n demo -o jsonpath='{.spec.clusterIP}')
+        APP_PORT=$(kubectl get svc jx-demo-app -n demo -o jsonpath='{.spec.ports[0].port}')
+        FWB_IP=$(kubectl get pods -n demo -l app=fwb -o jsonpath='{.items[0].status.podIP}')
+
+        echo "App target: $APP_IP:$APP_PORT"
+        echo "FortiWeb pod IP: $FWB_IP"
+
+        sed "s/{{cluster-ip}}/$APP_IP/g; s/{{cluster-port}}/$APP_PORT/g" fwb-config-template.cfg > fwb-config-rendered.cfg
+        cat fwb-config-rendered.cfg
+
+        sshpass -p "$FWB_PASSWORD" ssh -o StrictHostKeyChecking=no -p 8022 "$FWB_USERNAME@fwb.demo.svc.cluster.local" < fwb-config-rendered.cfg
