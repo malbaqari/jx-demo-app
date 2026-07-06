@@ -30,3 +30,4 @@ const server = http.createServer((req, res) => {
 server.listen(PORT, () => console.log('listening on ' + PORT));
 // re-provision fortiweb after reboot
 // retry fortiweb config
+// push config onto pvc-backed fwb
